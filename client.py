@@ -4,9 +4,7 @@ from typing import Callable
 
 import httpx
 
-
 from models import OpCode, Payload, Presence
-
 from ws import DiscordWebsocket
 
 

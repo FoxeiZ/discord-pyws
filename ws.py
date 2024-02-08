@@ -1,11 +1,10 @@
 import asyncio
 import json
+from typing import Callable, Coroutine
 
 import websockets
-from typing import Callable, Coroutine
-from models import OpCode
 
-from models import Payload, Identify
+from models import Identify, OpCode, Payload
 
 
 class DiscordWebsocket:

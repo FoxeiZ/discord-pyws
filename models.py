@@ -1,8 +1,7 @@
-from enum import Enum
 import json
 from dataclasses import dataclass
+from enum import Enum
 from typing import Any, Optional
-
 
 __all__ = ["Payload", "OpCode", "Presence", "Activity"]
 

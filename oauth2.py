@@ -1,10 +1,10 @@
-from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from threading import Thread
 from time import sleep
-from typing import Literal, Optional, Union, Callable
-
+from typing import Callable, Literal, Optional, Union
 from urllib import parse
+
 import httpx
 
 endpoints_mapping: dict[str, dict[str, Callable]] = {
