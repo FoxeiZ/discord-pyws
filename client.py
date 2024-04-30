@@ -12,12 +12,12 @@ EventCallBackType = Callable[["DiscordClient", Payload], Coroutine]
 
 
 class DiscordClient:
-    def __init__(self, token: str = "", username: str = "", password: str = ""):
-        if not token and not (username and password):
+    def __init__(self, token: str = "", email: str = "", password: str = ""):
+        if not token and not (email and password):
             raise Exception("Need token or username and password")
 
-        if not token and (username and password):
-            token = self.cred_to_token(username, password)
+        if not token and (email and password):
+            token = self.cred_to_token(email, password)
         self.token = token
 
         self.socket_subcription: dict[str, list[EventCallBackType]] = {}
