@@ -1,11 +1,14 @@
 import asyncio
 from signal import SIGINT, SIGTERM
-from typing import Callable
+from typing import Callable, Coroutine
 
 import httpx
 
 from models import OpCode, Payload, Presence
 from ws import DiscordWebsocket
+
+
+EventCallBackType = Callable[["DiscordClient", Payload], Coroutine]
 
 
 class DiscordClient:
@@ -17,7 +20,7 @@ class DiscordClient:
             token = self.cred_to_token(username, password)
         self.token = token
 
-        self.socket_subcription: dict[str, list[Callable]] = {}
+        self.socket_subcription: dict[str, list[EventCallBackType]] = {}
         self.discord_ws: DiscordWebsocket = DiscordWebsocket(token)
         self.discord_ws.add_close_callback(
             self.change_presence(Presence([], status="offline"))
@@ -28,7 +31,7 @@ class DiscordClient:
         event_name = payload.t.lower()
         if event_name in self.socket_subcription:
             for func in self.socket_subcription[event_name]:
-                await func(payload)
+                await func(self, payload)
 
     def close(self):
         asyncio.create_task(self.discord_ws.close()).add_done_callback(
@@ -81,7 +84,7 @@ class DiscordClient:
 
         return ""
 
-    def on_event(self, func):
+    def on_event(self, func: EventCallBackType):
         func_name = func.__name__.replace("on_", "")
 
         if not self.socket_subcription.get(func_name, None):
