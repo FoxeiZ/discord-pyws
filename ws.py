@@ -132,7 +132,6 @@ class DiscordWebsocket:
         self._ws_event_callback = func
 
     async def on_message(self, payload: Payload):
-        print(payload)
         if payload.s > self._sequence:
             self._sequence = payload.s
 
